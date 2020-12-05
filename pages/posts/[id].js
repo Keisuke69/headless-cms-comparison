@@ -34,7 +34,7 @@ export async function getStaticPaths() {
   const paths = await fetchPathsFromWordPress();
   return {
     paths,
-    fallback: 'blocking',
+    fallback: false,
   };
 }
 
