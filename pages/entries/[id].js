@@ -2,10 +2,14 @@ import Link from "next/link";
 import Layout from "../../components/layout";
 import Head from "next/head";
 import axios from "axios";
+import {useRouter} from "next/router"
 
 
 export default function Entry({ post }) {
-
+  const router = useRouter()
+  if(router.isFallback){
+    return <Layout>Loading...</Layout>
+  }
 
   return (
     <Layout>
@@ -59,37 +63,6 @@ export async function getStaticPaths() {
   });
   return {
     paths,
-    fallback: 'blocking',
+    fallback: true,
   };
-}
-
-async function fetchPostsFromWordPress(id) {
-  const url =
-    "https://public-api.wordpress.com/rest/v1.1/sites/keisuke69.wordpress.com/posts/" +
-    id;
-  const response = await axios.get(url).catch((response) => {
-    return {
-      data: {
-        content: `${response.message}`,
-      },
-    };
-  })
-  const post = await response.data;
-  return post;
-}
-
-async function fetchPathsFromWordPress() {
-  const url =
-    "https://public-api.wordpress.com/rest/v1.1/sites/keisuke69.wordpress.com/posts/";
-  const response = await axios.get(url);
-  const postsData = await response.data.posts;
-
-  const paths = postsData.map((posts, index) => {
-    return {
-      params: {
-        id: `${posts.ID}`,
-      },
-    };
-  });
-  return paths;
 }
