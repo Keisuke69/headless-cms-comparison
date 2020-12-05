@@ -1,17 +1,17 @@
 import Head from "next/head"
-import Layout, { siteTitle } from "../components/layout"
+import Layout, { siteTitle } from "../../components/layout"
 import axios from "axios"
 import Link from "next/link"
 
 
-export default function Index({postsData}) {
+export default function EntryIndex({postsData}) {
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
       <ul>
-        {postsData.map((posts,index) => <li key={posts.ID}><Link href={`/posts/${posts.ID}`}>{posts.title}</Link></li>)}
+        {postsData.map((posts,index) => <li key={posts.ID}><Link href={`/entries/${posts.ID}`}>{posts.title}</Link></li>)}
       </ul>
     </Layout>
   );
