@@ -31,11 +31,10 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-
   const paths = await fetchPathsFromWordPress();
   return {
     paths,
-    fallback: false,
+    fallback: 'blocking',
   };
 }
 
@@ -43,7 +42,13 @@ async function fetchPostsFromWordPress(id) {
   const url =
     "https://public-api.wordpress.com/rest/v1.1/sites/keisuke69.wordpress.com/posts/" +
     id;
-  const response = await axios.get(url);
+  const response = await axios.get(url).catch((response) => {
+    return {
+      data: {
+        content: `${response.message}`,
+      },
+    };
+  })
   const post = await response.data;
   return post;
 }
