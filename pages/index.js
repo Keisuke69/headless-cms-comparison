@@ -2,32 +2,11 @@ import Head from "next/head"
 import Layout, { siteTitle } from "../components/layout"
 import axios from "axios"
 import Link from "next/link"
+import Router, {useRouter} from "next/router"
 
-
-export default function Index({postsData}) {
-  return (
-    <Layout home>
-      <Head>
-        <title>{siteTitle}</title>
-      </Head>
-      <ul>
-        {postsData.map((posts,index) => <li key={posts.ID}><Link href={`/posts/${posts.ID}`}>{posts.title}</Link></li>)}
-      </ul>
-    </Layout>
-  );
+export default function Index(){
+ return <div />
 }
-
-export async function getStaticProps() {
-  const postsData = await getIndexFromWordpress()
-
-  return {
-    props: {
-      postsData,
-      revalidate: 1,
-    },
-  };
-}
-
 
 async function getIndexFromWordpress() {
   const url = "https://public-api.wordpress.com/rest/v1.1/sites/keisuke69.wordpress.com/posts/"
